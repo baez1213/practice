@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio del C</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Portafolio del C</h1>
+        <div id="practice-container" class="form-container">
+            <!-- Espacios para las prácticas se agregarán aquí dinámicamente -->
+        </div>
+        <button id="add-practice-button" class="add-button">Agregar Práctica</button>
+    </div>
+
+    <div id="particle-container">
+        <!-- Partículas se generarán aquí dinámicamente -->
+    </div>
+
+    <script>
+        let practiceCount = 0;
+
+        document.getElementById('add-practice-button').addEventListener('click', function() {
+            practiceCount++;
+
+            const practiceDiv = document.createElement('div');
+            practiceDiv.className = 'practice fade-in';
+
+            const practiceTitle = document.createElement('h3');
+            practiceTitle.textContent = `Subir Práctica ${practiceCount}`;
+
+            const form = document.createElement('form');
+            form.action = 'upload.php';
+            form.method = 'post';
+            form.enctype = 'multipart/form-data';
+
+            const label = document.createElement('label');
+            label.textContent = 'Selecciona un archivo:';
+            label.setAttribute('for', `file${practiceCount}`);
+
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.name = 'file';
+            fileInput.id = `file${practiceCount}`;
+            fileInput.required = true;
+
+            const submitButton = document.createElement('input');
+            submitButton.type = 'submit';
+            submitButton.value = 'Subir Archivo';
+            submitButton.className = 'submit-button';
+
+            form.appendChild(label);
+            form.appendChild(fileInput);
+            form.appendChild(submitButton);
+
+            const viewButton = document.createElement('button');
+            viewButton.textContent = `Ver Práctica ${practiceCount}`;
+            viewButton.className = 'view-button';
+            viewButton.addEventListener('click', function() {
+                window.open(`practica${practiceCount}.html`, '_blank');
+            });
+
+            practiceDiv.appendChild(practiceTitle);
+            practiceDiv.appendChild(form);
+            practiceDiv.appendChild(viewButton);
+
+            document.getElementById('practice-container').appendChild(practiceDiv);
+        });
+
+        // Inicializar con la primera práctica
+        document.getElementById('add-practice-button').click();
+
+        // Partículas
+        document.addEventListener('mousemove', function(e) {
+            const particleContainer = document.getElementById('particle-container');
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = e.pageX + 'px';
+            particle.style.top = e.pageY + 'px';
+            particleContainer.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
